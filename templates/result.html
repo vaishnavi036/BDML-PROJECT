@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Your Delivery Estimate | Foodie</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="/" class="brand">
+            <span class="brand-icon">🍔</span>
+            <span>foodie<span class="brand-dot">.</span></span>
+        </a>
+
+        <a href="/" class="nav-home">🏠 Back to Home</a>
+    </nav>
+
+    <main class="result-container">
+
+        <!-- Heading -->
+        <div class="result-heading">
+            <div class="success-icon">✓</div>
+
+            <span class="eyebrow">YOUR ESTIMATE IS READY</span>
+
+            <h1>Here's the plan!</h1>
+
+            <p>
+                Sit back and relax. Here's your estimated delivery time.
+            </p>
+        </div>
+
+        <!-- Prediction Card -->
+        <section class="result-card">
+
+            <div class="result-card-top">
+                <span>⏱️</span>
+                <span>Your estimated delivery time</span>
+            </div>
+
+            <div class="prediction-time">
+
+                <div class="time-value">
+                    {{ prediction }}
+                </div>
+
+                <div class="time-label">
+                    minutes
+                </div>
+
+            </div>
+
+            <p class="prediction-caption">
+                That's our estimate based on the details you entered.
+                Your actual delivery time may vary.
+            </p>
+
+            <!-- Delivery Details -->
+            <div class="details-heading">
+                <h2>📋 Your delivery details</h2>
+                <p>Here's what we used for your prediction.</p>
+            </div>
+
+            <div class="details-grid">
+
+                <div class="detail-item">
+                    <span class="detail-icon">📍</span>
+
+                    <div>
+                        <span class="detail-label">Distance</span>
+                        <strong>{{ data["Distance_km"] }} km</strong>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-icon">🌤️</span>
+
+                    <div>
+                        <span class="detail-label">Weather</span>
+                        <strong>{{ data["Weather"] }}</strong>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-icon">🚦</span>
+
+                    <div>
+                        <span class="detail-label">Traffic</span>
+                        <strong>{{ data["Traffic_Level"] }}</strong>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-icon">🕒</span>
+
+                    <div>
+                        <span class="detail-label">Time of day</span>
+                        <strong>{{ data["Time_of_Day"] }}</strong>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-icon">🛵</span>
+
+                    <div>
+                        <span class="detail-label">Vehicle</span>
+                        <strong>{{ data["Vehicle_Type"] }}</strong>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-icon">👨‍🍳</span>
+
+                    <div>
+                        <span class="detail-label">Preparation time</span>
+                        <strong>{{ data["Preparation_Time_min"] }} minutes</strong>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-icon">⭐</span>
+
+                    <div>
+                        <span class="detail-label">Courier experience</span>
+                        <strong>
+                            {{ data["Courier_Experience_yrs"] }} years
+                        </strong>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Helpful Instructions -->
+            <section class="instructions">
+
+                <div class="instructions-heading">
+                    <span>💡</span>
+
+                    <div>
+                        <h2>A little heads-up</h2>
+                        <p>Here are a few things worth keeping in mind.</p>
+                    </div>
+                </div>
+
+                <ul>
+                    {% for tip in tips %}
+                        <li>
+                            <span class="tip-check">✓</span>
+                            <span>{{ tip }}</span>
+                        </li>
+                    {% endfor %}
+
+                    <li>
+                        <span class="tip-check">✓</span>
+                        <span>
+                            Keep your phone nearby so you don't miss
+                            delivery updates.
+                        </span>
+                    </li>
+
+                    <li>
+                        <span class="tip-check">✓</span>
+                        <span>
+                            Remember, this is a machine learning estimate,
+                            not a guaranteed arrival time.
+                        </span>
+                    </li>
+                </ul>
+
+            </section>
+
+            <!-- Actions -->
+            <div class="result-actions">
+
+                <a href="/" class="primary-action">
+                    🔄 Make Another Prediction
+                    <span>→</span>
+                </a>
+
+                <a href="/" class="secondary-action">
+                    🏠 Back to Home
+                </a>
+
+            </div>
+
+        </section>
+
+        <p class="result-footer">
+            Good food takes time. Thanks for your patience! 💛
+        </p>
+
+    </main>
+
+    <footer class="footer">
+        <a href="/" class="footer-brand">foodie.</a>
+
+        <p>Made with ❤️ and a little machine learning.</p>
+
+        <small>
+            Food Delivery Time Prediction | Machine Learning Mini Project
+        </small>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Foodie | Delivery Time Prediction</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="/" class="brand">
+            <span class="brand-icon">🍔</span>
+            <span>foodie<span class="brand-dot">.</span></span>
+        </a>
+
+        <span class="nav-label">Smart Delivery Estimator</span>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+
+            <span class="eyebrow">✨ YOUR DELIVERY, MADE SIMPLE</span>
+
+            <h1>
+                Good food.<br>
+                <span class="highlight">Delivered smarter.</span>
+            </h1>
+
+            <p>
+                Wondering when your favourite food will arrive?
+                Tell us a little about your delivery, and we'll
+                estimate the time using machine learning.
+            </p>
+
+            <div class="hero-badges">
+                <span>⚡ Quick estimates</span>
+                <span>📊 Data-driven predictions</span>
+                <span>💛 Easy to use</span>
+            </div>
+
+        </div>
+
+        <div class="hero-illustration">
+            <div class="food-circle">🍕</div>
+            <div class="floating-food food-one">🍟</div>
+            <div class="floating-food food-two">🥤</div>
+            <div class="floating-food food-three">🍔</div>
+        </div>
+    </header>
+
+    <!-- Main Form -->
+    <main class="main-container">
+
+        <section class="form-card">
+
+            <div class="section-heading">
+                <span class="section-icon">📝</span>
+
+                <div>
+                    <h2>Let's plan your delivery</h2>
+                    <p>
+                        Just a few details stand between you and your estimate.
+                    </p>
+                </div>
+            </div>
+
+            {% if error %}
+                <div class="error-message">
+                    ⚠️ {{ error }}
+                </div>
+            {% endif %}
+
+            <form action="/predict" method="POST">
+
+                <div class="form-grid">
+
+                    <!-- Distance -->
+                    <div class="form-group">
+                        <label for="Distance_km">
+                            📍 Delivery distance
+                        </label>
+
+                        <div class="input-wrapper">
+                            <input
+                                type="number"
+                                id="Distance_km"
+                                name="Distance_km"
+                                min="0.1"
+                                step="0.1"
+                                placeholder="e.g. 5"
+                                required>
+                            <span class="input-unit">km</span>
+                        </div>
+
+                        <small>How far is your destination?</small>
+                    </div>
+
+                    <!-- Weather -->
+                    <div class="form-group">
+                        <label for="Weather">
+                            🌤️ What's the weather like?
+                        </label>
+
+                        <select id="Weather" name="Weather" required>
+                            <option value="Clear">☀️ Clear</option>
+                            <option value="Rainy">🌧️ Rainy</option>
+                            <option value="Foggy">🌫️ Foggy</option>
+                            <option value="Snowy">❄️ Snowy</option>
+                            <option value="Stormy">⛈️ Stormy</option>
+                        </select>
+
+                        <small>Weather can affect travel time.</small>
+                    </div>
+
+                    <!-- Traffic -->
+                    <div class="form-group">
+                        <label for="Traffic_Level">
+                            🚦 How busy are the roads?
+                        </label>
+
+                        <select
+                            id="Traffic_Level"
+                            name="Traffic_Level"
+                            required>
+
+                            <option value="Low">🟢 Low traffic</option>
+                            <option value="Medium">🟡 Moderate traffic</option>
+                            <option value="High">🔴 Heavy traffic</option>
+                        </select>
+
+                        <small>Choose the current traffic level.</small>
+                    </div>
+
+                    <!-- Time -->
+                    <div class="form-group">
+                        <label for="Time_of_Day">
+                            🕒 When is the delivery?
+                        </label>
+
+                        <select
+                            id="Time_of_Day"
+                            name="Time_of_Day"
+                            required>
+
+                            <option value="Morning">🌅 Morning</option>
+                            <option value="Afternoon">☀️ Afternoon</option>
+                            <option value="Evening">🌇 Evening</option>
+                            <option value="Night">🌙 Night</option>
+                        </select>
+
+                        <small>Delivery time can affect road conditions.</small>
+                    </div>
+
+                    <!-- Vehicle -->
+                    <div class="form-group">
+                        <label for="Vehicle_Type">
+                            🛵 How will it travel?
+                        </label>
+
+                        <select
+                            id="Vehicle_Type"
+                            name="Vehicle_Type"
+                            required>
+
+                            <option value="Bike">🏍️ Bike</option>
+                            <option value="Scooter">🛵 Scooter</option>
+                            <option value="Car">🚗 Car</option>
+                        </select>
+
+                        <small>Select the delivery vehicle.</small>
+                    </div>
+
+                    <!-- Preparation Time -->
+                    <div class="form-group">
+                        <label for="Preparation_Time_min">
+                            👨‍🍳 Food preparation time
+                        </label>
+
+                        <div class="input-wrapper">
+                            <input
+                                type="number"
+                                id="Preparation_Time_min"
+                                name="Preparation_Time_min"
+                                min="0"
+                                step="1"
+                                placeholder="e.g. 20"
+                                required>
+                            <span class="input-unit">min</span>
+                        </div>
+
+                        <small>Estimated time for preparing the food.</small>
+                    </div>
+
+                    <!-- Courier Experience -->
+                    <div class="form-group full-width">
+                        <label for="Courier_Experience_yrs">
+                            🛵 How experienced is the delivery partner?
+                        </label>
+
+                        <div class="input-wrapper">
+                            <input
+                                type="number"
+                                id="Courier_Experience_yrs"
+                                name="Courier_Experience_yrs"
+                                min="0"
+                                step="0.5"
+                                placeholder="e.g. 2"
+                                required>
+                            <span class="input-unit">years</span>
+                        </div>
+
+                        <small>
+                            Enter the delivery partner's experience in years.
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="form-note">
+                    💛 Every delivery is different. Let's find an estimate
+                    that works for you.
+                </div>
+
+                <button type="submit" class="predict-button">
+                    <span>🍔</span>
+                    Estimate My Delivery Time
+                    <span class="button-arrow">→</span>
+                </button>
+
+                <p class="privacy-note">
+                    ✨ Your estimate is generated using a trained
+                    machine learning model.
+                </p>
+
+            </form>
+
+        </section>
+
+        <!-- Information Cards -->
+        <section class="features-section">
+
+            <div class="feature-card">
+                <span class="feature-icon">⚡</span>
+                <h3>Quick estimates</h3>
+                <p>Get an estimated delivery time in seconds.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">📊</span>
+                <h3>Machine learning</h3>
+                <p>Predictions based on the details you provide.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">💛</span>
+                <h3>Made for you</h3>
+                <p>A simple way to plan and understand your delivery.</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <a href="/" class="footer-brand">foodie.</a>
+
+        <p>
+            Made with ❤️ and a little machine learning.
+        </p>
+
+        <small>
+            Food Delivery Time Prediction | Machine Learning Mini Project
+        </small>
+    </footer>
+
+</body>
+</html>
